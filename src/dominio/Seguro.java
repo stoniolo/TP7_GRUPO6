@@ -7,16 +7,18 @@ public class Seguro {
 	private String tipo;
 	private double costoContrato;
 	private double costoAsegurado;
+	private static int cont=1;
 	
 	public Seguro()
 	{}
 
-	public Seguro(int id, String descripcion, String tipo, double costoContrato, double costoAsegurado) {
-		this.id = id;
+	public Seguro(String descripcion, String tipo, double costoContrato, double costoAsegurado) {
+		this.id = cont;
 		this.descripcion = descripcion;
 		this.tipo = tipo;
 		this.costoContrato = costoContrato;
 		this.costoAsegurado = costoAsegurado;
+		cont++;
 	}
 
 	public int getId() {

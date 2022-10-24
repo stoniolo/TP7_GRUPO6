@@ -1,3 +1,5 @@
+<%@page import= "dominio.Seguro" %>
+<%@page import= "dominio.SeguroDao" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -23,6 +25,25 @@
 	<input type="submit" name="btnSaludar" value="Aceptar" />
 
 </form>
+
+<%
+	int filas=0;
+	if(request.getParameter("btnAceptar")!=null)
+	{
+		String desc = request.getParameter("txtDescripcion");
+		String tipoSeguro = request.getParameter("seguro");
+		String costoContratacion = request.getParameter("txtCostoContratacion");
+		String costoMaximo = request.getParameter("txtCostoMaximoAsegurado");
+		
+		Double costoContrato = Double.parseDouble(costoContratacion);
+		Double costoMax = Double.parseDouble(costoMaximo);
+		
+		Seguro seguro = new Seguro(desc, tipoSeguro, costoContrato, costoMax);
+		
+		SeguroDao seguroDao = new SeguroDao();
+		filas= seguroDao.agregarSeguro(seguro);
+	}
+ %>
 
 </body>
 </html>
