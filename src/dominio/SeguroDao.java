@@ -11,8 +11,8 @@ public class SeguroDao {
 
 	private String host = "jdbc:mysql://localhost:3306/";
 	private String user = "root";
-	private String pass = "root";
-	private String dbName = "bdregistro";
+	private String pass = "admin";
+	private String dbName = "segurosgroup";
 
 
 	
@@ -20,7 +20,7 @@ public class SeguroDao {
 	{
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,7 +47,7 @@ public class SeguroDao {
 	{
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,7 +73,7 @@ public class SeguroDao {
 	public ArrayList<Seguro> obtenerSeguros() {
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,7 +92,7 @@ public class SeguroDao {
 				Seguro seguroRs = new Seguro();
 				seguroRs.setId(rs.getInt("idSeguro"));
 				seguroRs.setDescripcion(rs.getString("descripcion"));
-				seguroRs.setTipo(rs.getString("idTipo"));
+				seguroRs.setTipo(Integer.parseInt(rs.getString("idTipo")));
 				seguroRs.setCostoContrato(rs.getDouble("costoContratacion"));
 				seguroRs.setCostoAsegurado(rs.getDouble("costoAsegurado"));
 				
@@ -108,12 +108,50 @@ public class SeguroDao {
 		return lista;
 	}
 
+	public ArrayList<Seguro> obtenerSeguros(Integer idTipo) {
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ArrayList<Seguro> lista = new ArrayList<Seguro>();
+		Connection conn = null;
+		try{
+			conn = DriverManager.getConnection(host + dbName, user, pass);
+			PreparedStatement st = conn.prepareStatement("Select idSeguro,descripcion,idTipo,costoContratacion,costoAsegurado FROM seguros where idTipo = ?");
+			st.setInt(1, idTipo); //Cargo el ID recibido
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next()){
+				
+				Seguro seguroRs = new Seguro();
+				seguroRs.setId(rs.getInt("idSeguro"));
+				seguroRs.setDescripcion(rs.getString("descripcion"));
+				seguroRs.setTipo(Integer.parseInt(rs.getString("idTipo")));
+				seguroRs.setCostoContrato(rs.getDouble("costoContratacion"));
+				seguroRs.setCostoAsegurado(rs.getDouble("costoAsegurado"));
+				
+				lista.add(seguroRs);
+			}
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+		
+		}
+		
+		return lista;
+	}
+	
 	
 	
 	public Seguro obtenerUnSeguro(int id)
 	{
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -130,7 +168,7 @@ public class SeguroDao {
 			
 			seguro.setId(resultado.getInt(1));
 			seguro.setDescripcion(resultado.getString(2));
-			seguro.setTipo(resultado.getString(3));
+			seguro.setTipo(Integer.parseInt(resultado.getString(3)));
 			seguro.setCostoContrato(resultado.getDouble(3));
 			seguro.setCostoAsegurado(resultado.getDouble(3));
 		    

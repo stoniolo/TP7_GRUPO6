@@ -4,21 +4,19 @@ public class Seguro {
 
 	private int id;
 	private String descripcion;
-	private String tipo;
+	private Integer tipo;
 	private double costoContrato;
 	private double costoAsegurado;
-	private static int cont=1;
 	
 	public Seguro()
 	{}
 
-	public Seguro(String descripcion, String tipo, double costoContrato, double costoAsegurado) {
-		this.id = cont;
+	public Seguro(int id, String descripcion, Integer tipo, double costoContrato, double costoAsegurado) {
+		this.id = id;
 		this.descripcion = descripcion;
 		this.tipo = tipo;
 		this.costoContrato = costoContrato;
 		this.costoAsegurado = costoAsegurado;
-		cont++;
 	}
 
 	public int getId() {
@@ -37,11 +35,11 @@ public class Seguro {
 		this.descripcion = descripcion;
 	}
 
-	public String getTipo() {
+	public Integer getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
 	}
 
